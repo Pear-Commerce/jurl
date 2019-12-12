@@ -665,6 +665,19 @@ public class Jurl {
         return this;
     }
 
+    class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {
+        public static final String METHOD_NAME = "DELETE";
+
+        public String getMethod() {
+            return METHOD_NAME;
+        }
+
+        public HttpDeleteWithBody(final URI uri) {
+            super();
+            setURI(uri);
+        }
+    }
+
     private HttpUriRequest getRequest() throws URISyntaxException {
         final URI uri = builder.build();
         HttpUriRequest request;
@@ -682,7 +695,7 @@ public class Jurl {
                 request = new HttpPut(uri);
                 break;
             case DELETE:
-                request = new HttpDelete(uri);
+                request = new HttpDeleteWithBody(uri);
                 break;
             default:
                 throw new RuntimeException("Unsupported HTTP Method: " + method);
