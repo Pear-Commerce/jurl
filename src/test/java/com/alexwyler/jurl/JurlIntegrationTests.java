@@ -59,7 +59,7 @@ public class JurlIntegrationTests {
 
     @Test
     public void testJsonList() {
-        Jurl jurl = new Jurl().url("https://eatstreet.com/api/v2/CitiesByState.json").go();
+        Jurl jurl = new Jurl().url("https://eatstreet.com/api/v2/cities-by-state").go();
         Assert.assertNotNull(jurl.getResponseJsonList(EatStreetState.class));
     }
 
@@ -103,17 +103,15 @@ public class JurlIntegrationTests {
 
     @Test
     public void testAsync() throws ExecutionException, InterruptedException {
-        Future<Jurl> future = new Jurl().url("https://eatstreet.com/api/v2/CitiesByState.json").goAsync();
+        Future<Jurl> future = new Jurl().url("https://eatstreet.com/madison").goAsync();
         Jurl jurl = future.get();
-        Assert.assertTrue(!jurl.getResponseBody().isEmpty());
-        Assert.assertNotNull(jurl.getResponseJsonList(EatStreetState.class));
         Assert.assertEquals(200, jurl.getResponseCode());
-        Assert.assertNotNull(jurl.getResponseCookie("JSESSIONID"));
+        Assert.assertTrue(!jurl.getResponseBody().isEmpty());
     }
 
     @Test
     public void testNewWithCookies() {
-        Jurl jurl = new Jurl().url("https://eatstreet.com/api/v2/CitiesByState.json").go();
+        Jurl jurl = new Jurl().url("https://eatstreet.com/api/v2/cities-by-state").go();
         Assert.assertNotNull(jurl.getResponseCookie("JSESSIONID"));
         String jsessionId = jurl.getResponseCookie("JSESSIONID").getValue();
         Jurl jurl2 = jurl.newWithCookies().url("https://eatstreet.com/ClientConfig.json").go();
@@ -126,18 +124,18 @@ public class JurlIntegrationTests {
 
     @Test
     public void testCurlCookies() {
-        String curl = new Jurl().url("https://eatstreet.com/api/v2/CitiesByState.json")
+        String curl = new Jurl().url("https://eatstreet.com/api/v2/cities-by-state")
                 .cookie("test-cookie", "test-value")
                 .cookie("test-cookie", "test-value2")
                 .cookie("test-cookie3", "test-value4")
                 .toCurl();
 
-        Assert.assertEquals("curl -X GET -L --cookie \"test-cookie=test-value;test-cookie=test-value2;test-cookie3=test-value4\" 'https://eatstreet.com/api/v2/CitiesByState.json'", curl);
+        Assert.assertEquals("curl -X GET -L --cookie \"test-cookie=test-value;test-cookie=test-value2;test-cookie3=test-value4\" 'https://eatstreet.com/api/v2/cities-by-state'", curl);
     }
 
     @Test
     public void testUrlParameters() {
-        final String url = "https://eatstreet.com/api/v2/CitiesByState.json";
+        final String url = "https://eatstreet.com/api/v2/cities-by-state";
         final String params = "?param1=test";
         final String urlWithParams = url + params;
 
@@ -149,7 +147,7 @@ public class JurlIntegrationTests {
 
     @Test
     public void testIndividualUrlParameters() {
-        final String url = "https://eatstreet.com/api/v2/CitiesByState.json";
+        final String url = "https://eatstreet.com/api/v2/cities-by-state";
         final String paramName = "param1";
         final String paramValue = "test";
         final String urlWithParams = url + "?" + paramName + "=" + paramValue;
