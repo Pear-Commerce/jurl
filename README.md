@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/eatstreet/jurl.svg?style=svg)](https://circleci.com/gh/eatstreet/jurl)
-
+[![](https://jitpack.io/v/Pear-Commerce/jurl.svg)](https://jitpack.io/#Pear-Commerce/jurl)
 [![DepShield Badge](https://depshield.sonatype.org/badges/eatstreet/jurl/depshield.svg)](https://depshield.github.io)
 
 # Jurl
