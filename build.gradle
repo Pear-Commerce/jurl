@@ -1,5 +1,4 @@
-group 'com.github.eatstreet'
-version '2.6.5'
+group 'com.github.Pear-Commerce'
 
 apply plugin: 'java'
 apply plugin: 'maven'
