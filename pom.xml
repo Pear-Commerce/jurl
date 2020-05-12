@@ -2,10 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.eatstreet</groupId>
+    <groupId>com.github.Pear-Commerce</groupId>
     <artifactId>jurl</artifactId>
-    <version>2.6.4</version>
-
+	<version>3.2.0</version>
     <build>
         <plugins>
             <plugin>
@@ -76,7 +75,7 @@
 
     <name>Jurl</name>
     <description>Jurl is a modern Java http client designed to make API integrations simpler.</description>
-    <url>https://github.com/eatstreet/jurl</url>
+    <url>https://github.com/Pear-Commerce/jurl</url>
     <licenses>
         <license>
             <name>MIT License</name>
@@ -91,12 +90,6 @@
             <organizationUrl>https://eatstreet.com</organizationUrl>
         </developer>
     </developers>
-    <scm>
-        <connection>scm:git:git://github.com/eatstreet/jurl.git</connection>
-        <developerConnection>scm:git:git@github.com:eatstreet/jurl.git</developerConnection>
-        <url>http://github.com/eatstreet/jurl</url>
-      <tag>jurl-2.6.4</tag>
-  </scm>
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
