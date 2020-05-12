@@ -1,17 +1,53 @@
-group 'com.github.Pear-Commerce'
-
 apply plugin: 'java'
 apply plugin: 'maven'
 
-sourceCompatibility = 1.8
+group 'com.github.Pear-Commerce'
+
+sourceCompatibility = 1.8 // java 8
+targetCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
-    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.8'
-    testCompile 'junit:junit:4.11'
+  compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
+  compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+  compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.8'
+  testCompile 'junit:junit:4.11'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+// To specify a license in the pom:
+install {
+  repositories.mavenInstaller {
+    pom.project {
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }
+}
+
+wrapper {
+    gradleVersion = "5.1.1"
+    distributionType = Wrapper.DistributionType.ALL
 }
