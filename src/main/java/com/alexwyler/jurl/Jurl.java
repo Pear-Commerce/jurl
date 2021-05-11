@@ -18,6 +18,7 @@ import org.apache.http.annotation.ThreadingBehavior;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.*;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -92,7 +93,7 @@ public class Jurl {
     List<HttpCookie> responseCookies = new ArrayList<>();
     String requestBody = EMPTY;
     int responseCode;
-    long timeout = TimeUnit.SECONDS.toMillis(60); // ms
+    int timeout = 0; // ms
     int maxAttempts = 1;
     long timeBetweenAttempts = 0; // ms
     boolean throwOnNon200 = false;
@@ -287,7 +288,7 @@ public class Jurl {
         return header("Content-Type", contentType);
     }
 
-    public Jurl timeout(long timeout) {
+    public Jurl timeout(int timeout) {
         this.timeout = timeout;
         return this;
     }
@@ -564,6 +565,13 @@ public class Jurl {
             	httpClientBuilder.setRedirectStrategy(new FollowNoRedirectStrategy());
             }
             
+            if (timeout != 0) {
+            	RequestConfig.Builder requestConfig = RequestConfig.custom();
+            	requestConfig.setSocketTimeout(timeout);
+            	httpClientBuilder.setDefaultRequestConfig(requestConfig.build());
+            }
+        	
+            
             if (this.proxyHost != null) {
             	httpClientBuilder.setProxy(new HttpHost(proxyHost, proxyPort));
             	
@@ -595,8 +603,14 @@ public class Jurl {
             final CloseableHttpClient httpClient = httpClientBuilder
                     .build();
             try {
-                final HttpUriRequest httpRequest = getRequest();
-
+            	
+                final HttpRequestBase httpRequest = getRequest();
+                if (timeout != 0) {
+                	RequestConfig.Builder requestConfig = RequestConfig.custom();
+                	requestConfig.setSocketTimeout(timeout);
+                	httpRequest.setConfig(requestConfig.build());
+                }
+                
                 for (NameValuePair header : requestHeaders) {
                     httpRequest.addHeader(header.getName(), header.getValue());
                 }
@@ -703,12 +717,13 @@ public class Jurl {
         }
     }
 
-    private HttpUriRequest getRequest() throws URISyntaxException {
+    private HttpRequestBase getRequest() throws URISyntaxException {
         final URI uri = builder.build();
-        HttpUriRequest request;
+        HttpRequestBase request;
         switch (method) {
             case GET:
                 request = new HttpGet(uri);
+                
                 break;
             case POST:
                 request = new HttpPost(uri);
