@@ -509,7 +509,14 @@ public class Jurl {
                 }
             }
         }
-
+        
+        if (proxyHost != null) {
+        	sb.append(" --proxy " + proxyHost + ":" + proxyPort + " ");
+        }
+        if (proxyUser != null) {
+        	sb.append(" --proxy-user " + proxyUser + ":" + proxyPassword + " ");
+        }
+        
         if (maySendResource()) {
             String body = getEffectiveRequestBody();
             if (body != null && !body.equals(EMPTY)) {
