@@ -105,6 +105,7 @@ public class Jurl {
 	byte[] responseBytes;
 	private String proxyUser;
 	private String proxyPassword;
+	private boolean acceptCompression = true;
 
     /**
      * Returns whether this request type is expected to send a resource in the body.  Namely, if it is PUT, POST, or PATCH.
@@ -137,6 +138,11 @@ public class Jurl {
     	return this;
     }
 
+    public Jurl acceptCompression(boolean compress) {
+    	this.acceptCompression = compress;
+    	return this;
+    }
+    
     public Jurl throwOnNon200(boolean throwOnNon200) {
         this.throwOnNon200 = throwOnNon200;
         return this;
@@ -570,6 +576,10 @@ public class Jurl {
                 httpClientBuilder.setRedirectStrategy(new FollowAllRedirectStrategy());
             } else {
             	httpClientBuilder.setRedirectStrategy(new FollowNoRedirectStrategy());
+            }
+            
+            if (!acceptCompression) {
+            	httpClientBuilder.disableContentCompression();
             }
             
             if (timeout != 0) {
