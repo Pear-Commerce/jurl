@@ -423,7 +423,7 @@ public class Jurl {
         if (!getResponseHeaders("content-type").isEmpty()) {
         	for (String responseHeaderValue : getResponseHeaders("content-type")) {
         		if (responseHeaderValue.contains("charset=")) {
-        			charset = responseHeaderValue.split(Pattern.quote("charset="))[1];
+        			charset = responseHeaderValue.split(Pattern.quote("charset="))[1].toUpperCase();
         			break;
         		}
         	}
