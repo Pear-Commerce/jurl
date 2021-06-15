@@ -431,7 +431,11 @@ public class Jurl {
         try {
 			return new String(responseBytes, charset);
 		} catch (UnsupportedEncodingException e) {
-			throw new RuntimeException(e);
+			try {
+				return new String(responseBytes, "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				throw new RuntimeException(e1);
+			}
 		}
     }
     
